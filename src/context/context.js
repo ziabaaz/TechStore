@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { linkData } from "./linkData";
 import { socialData } from "./socialData";
 import { items } from "./productData";
+import { client } from "./contentful";
 
 const ProductContext = React.createContext();
 
@@ -30,7 +31,15 @@ class ProductProvider extends Component {
   };
 
   componentDidMount() {
-    this.setProducts(items);
+    //this.setProducts(items);
+    client
+    .getEntries({
+      content_type: "techStore"
+    })
+    .then(response => this.setProducts(response.items))
+    .catch(console.error);
+
+
   }
 
   //this is to format id and fields into a proper json.
